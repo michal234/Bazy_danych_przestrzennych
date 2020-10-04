@@ -21,6 +21,9 @@ ALTER TABLE firma.wynagrodzenie ADD FOREIGN KEY(id_godziny) REFERENCES firma.god
 ALTER TABLE firma.wynagrodzenie ADD FOREIGN KEY(id_pensji) REFERENCES firma.pensja_stanowisko(id_pensji);
 ALTER TABLE firma.wynagrodzenie ADD FOREIGN KEY(id_premii) REFERENCES firma.premia(id_premii);
 
+d)
+CREATE CLUSTERED INDEX pracownik_ind ON firma.wynagrodzenie(id_pracownika);
+
 e)
 COMMENT ON TABLE firma.pracownicy IS 'Zawiera dane o pracownikach firmy';
 COMMENT ON TABLE firma.godziny IS 'Zawiera dane o godzinach przepracowanych przez pracownika';
@@ -28,3 +31,8 @@ COMMENT ON TABLE firma.pensja_stanowisko IS 'Zawiera dane o pensji w odniesieniu
 COMMENT ON TABLE firma.premia IS 'Zawiera dane o możliwych premiach i ich wielkościach';
 COMMENT ON TABLE firma.wynagrodzenie IS 'Zawiera dane o tym, jakie wynagrodzenie dostal dany pracownik uwzgleniajac liczbe godzin, pensje, premie i date wyplaty wynagrodzenia';
 
+f)
+ALTER TABLE firma.godziny ADD FOREIGN KEY(id_pracownika) REFERENCES firma.pracownicy(id_pracownika) ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE firma.wynagrodzenie ADD FOREIGN KEY(id_godziny) REFERENCES firma.godziny(id_godziny) ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE firma.wynagrodzenie ADD FOREIGN KEY(id_pensji) REFERENCES firma.pensja_stanowisko(id_pensji) ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE firma.wynagrodzenie ADD FOREIGN KEY(id_premii) REFERENCES firma.premia(id_premii) ON UPDATE NO ACTION ON DELETE NO ACTION;
