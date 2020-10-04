@@ -1,0 +1,17 @@
+1. CREATE DATABASE s290135;
+2. CREATE SCHEMA firma;
+3. CREATE ROLE ksiegowosc;
+4. a)
+CREATE TABLE firma.pracownicy( id_pracownika INT NOT NULL UNIQUE, imie VARCHAR, nazwisko VARCHAR, adres VARCHAR, telefon VARCHAR(9) );
+CREATE TABLE firma.godziny( id_godziny INT NOT NULL UNIQUE, data DATE, liczba_godzin INT, id_pracownika INT NOT NULL );
+CREATE TABLE firma.pensja_stanowisko( id_pensji INT NOT NULL UNIQUE, stanowisko VARCHAR, kwota FLOAT(2) );
+CREATE TABLE firma.premia( id_premii INT NOT NULL UNIQUE, rodzaj VARCHAR, kwota FLOAT(2) );
+CREATE TABLE firma.wynagrodzenie( id_wynagrodzenia INT NOT NULL UNIQUE, data DATE, id_pracownika INT NOT NULL, id_godziny INT NOT NULL, id_pensji INT NOT NULL, id_premii INT NOT NULL);
+
+b)
+ALTER TABLE firma.pracownicy ADD PRIMARY KEY(id_pracownika);
+ALTER TABLE firma.godziny ADD PRIMARY KEY(id_godziny);
+ALTER TABLE firma.pensja_stanowisko ADD PRIMARY KEY(id_pensji);
+ALTER TABLE firma.premia ADD PRIMARY KEY(id_premii);
+ALTER TABLE firma.wynagrodzenie ADD PRIMARY KEY(id_wynagrodzenia);
+
