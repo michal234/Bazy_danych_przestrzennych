@@ -1,6 +1,7 @@
 1. CREATE DATABASE s290135;
 2. CREATE SCHEMA firma;
 3. CREATE ROLE ksiegowosc;
+GRANT SELECT ON ALL TABLES IN SCHEMA firma TO ksiegowosc;
 4. a)
 CREATE TABLE firma.pracownicy( id_pracownika INT NOT NULL UNIQUE, imie VARCHAR, nazwisko VARCHAR, adres VARCHAR, telefon VARCHAR(9) );
 CREATE TABLE firma.godziny( id_godziny INT NOT NULL UNIQUE, data DATE, liczba_godzin INT, id_pracownika INT NOT NULL );
@@ -49,4 +50,8 @@ d) SELECT * FROM firma.pracownicy WHERE imie LIKE 'J%';
 e) SELECT * FROM firma.pracownicy WHERE nazwisko LIKE '%n%' AND imie LIKE '%a';
 f) 
 g) SELECT pracownicy.imie, pracownicy.nazwisko FROM ((firma.pracownicy INNER JOIN firma.wynagrodzenie ON pracownicy.id_pracownika = wynagrodzenie.id_pracownika) INNER JOIN firma.pensja_stanowisko ON wynagrodzenie.id_pensji = pensja_stanowisko.id_pensji) WHERE pensja_stanowisko.kwota >= 1500 AND pensja_stanowisko.kwota <= 3000 GROUP BY pracownicy.nazwisko, pracownicy.imie;
-h) 
+h)
+
+7.
+a) SELECT imie, nazwisko, kwota FROM (firma.pracownicy INNER JOIN firma.wynagrodzenie ON pracownicy.id_pracownika = wynagrodzenie.id_pracownika) INNER JOIN firma.pensja_stanowisko ON wynagrodzenie.id_pensji = pensja_stanowisko.id_pensji GROUP BY imie, nazwisko, kwota ORDER BY pensja_stanowisko.kwota;
+b) SELECT imie, nazwisko, pensja_stanowisko.kwota, premia.kwota FROM ((firma.pracownicy INNER JOIN firma.wynagrodzenie ON pracownicy.id_pracownika = wynagrodzenie.id_pracownika) INNER JOIN firma.pensja_stanowisko ON wynagrodzenie.id_pensji = pensja_stanowisko.id_pensji) INNER JOIN firma.premia ON wynagrodzenie.id_premii = premia.id_premii GROUP BY imie, nazwisko, pensja_stanowisko.kwota, premia.kwota ORDER BY pensja_stanowisko.kwota DESC, premia.kwota DESC;
