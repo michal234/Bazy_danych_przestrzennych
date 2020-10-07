@@ -107,7 +107,7 @@ b) SELECT DISTINCT pracownicy.id_pracownika FROM ((firma.pracownicy INNER JOIN f
 c) SELECT pracownicy.id_pracownika FROM (((firma.pracownicy INNER JOIN firma.wynagrodzenie ON pracownicy.id_pracownika = wynagrodzenie.id_pracownika) INNER JOIN firma.pensja_stanowisko ON wynagrodzenie.id_pensji = pensja_stanowisko.id_pensji) INNER JOIN firma.premia ON wynagrodzenie.id_premii = premia.id_premii) WHERE pensja_stanowisko.kwota > 2000 AND premia.kwota = 0;
 d) SELECT * FROM firma.pracownicy WHERE imie LIKE 'J%';
 e) SELECT * FROM firma.pracownicy WHERE nazwisko LIKE '%n%' AND imie LIKE '%a';
-f) SELECT pracownicy.id_pracownika, pracownicy.imie, pracownicy.nazwisko, liczba_nadgodzin FROM firma.pracownicy INNER JOIN firma.godziny ON pracownicy.id_pracownika = godziny.id_pracownika  WHERE liczba_godzin>160;
+f) 
 g) SELECT pracownicy.imie, pracownicy.nazwisko FROM ((firma.pracownicy INNER JOIN firma.wynagrodzenie ON pracownicy.id_pracownika = wynagrodzenie.id_pracownika) INNER JOIN firma.pensja_stanowisko ON wynagrodzenie.id_pensji = pensja_stanowisko.id_pensji) WHERE pensja_stanowisko.kwota >= 1500 AND pensja_stanowisko.kwota <= 3000 GROUP BY pracownicy.nazwisko, pracownicy.imie;
 h)
 
@@ -120,3 +120,5 @@ e) SELECT SUM(pensja_stanowisko.kwota) + SUM(premia.kwota) AS suma_wynagrodzen F
 f) SELECT pensja_stanowisko.stanowisko, SUM(pensja_stanowisko.kwota) + SUM(premia.kwota) AS suma_wynagrodzen FROM (firma.wynagrodzenie INNER JOIN firma.pensja_stanowisko ON wynagrodzenie.id_pensji = pensja_stanowisko.id_pensji) INNER JOIN firma.premia ON wynagrodzenie.id_premii = premia.id_premii GROUP BY stanowisko;
 g) SELECT pensja_stanowisko.stanowisko, COUNT(premia.id_premii) AS liczba_premii FROM (firma.pensja_stanowisko INNER JOIN firma.wynagrodzenie ON pensja_stanowisko.id_pensji = wynagrodzenie.id_pensji) INNER JOIN firma.premia ON wynagrodzenie.id_premii = premia.id_premii WHERE premia.rodzaj NOT LIKE 'brak' GROUP BY stanowisko;
 
+9.
+SELECT 'Pracownik ' || imie || ' ' || nazwisko || ', w dniu ' || EXTRACT(DAY FROM godziny.data) || '.' || EXTRACT(MONTH FROM godziny.data) || '.' || EXTRACT(YEAR FROM godziny.data) || ' otrzymal pensje calkowita na kwote ' || pensja_stanowisko.kwota + premia.kwota || ' zl, gdzie wynagrodzenie zasadnicze wynosilo: ' || pensja_stanowisko.kwota || ' zl, premia: ' || premia.kwota || ' zl, nadgodziny: ' || (godziny.liczba_godzin - 160)*pensja_stanowisko.kwota/160 || ' zl.' FROM firma.pracownicy INNER JOIN firma.wynagrodzenie ON pracownicy.id_pracownika = wynagrodzenie.id_pracownika INNER JOIN firma.pensja_stanowisko ON wynagrodzenie.id_pensji = pensja_stanowisko.id_pensji INNER JOIN firma.premia ON wynagrodzenie.id_premii = premia.id_premii INNER JOIN firma.godziny ON wynagrodzenie.id_godziny = godziny.id_godziny;
