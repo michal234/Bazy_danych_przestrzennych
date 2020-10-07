@@ -40,10 +40,66 @@ ALTER TABLE firma.wynagrodzenie ADD FOREIGN KEY(id_premii) REFERENCES firma.prem
 
 5.
 a)
-ALTER TABLE firma.godziny ADD COLUMN miesiac TYPE DATE;
-ALTER TABLE firma.godziny ADD COLUMN tydzien TYPE DATE;
+ALTER TABLE firma.godziny ADD COLUMN miesiac TYPE INT;
+ALTER TABLE firma.godziny ADD COLUMN tydzien TYPE INT;
 b)
 ALTER TABLE firma.wynagrodzenie ALTER COLUMN data TYPE VARCHAR;
+
+INSERT INTO firma.pracownicy(id_pracownika, imie, nazwisko, adres, telefon) VALUES (1, 'Adam', 'Adamski', 'Amsterdam', '123456789');
+INSERT INTO firma.pracownicy(id_pracownika, imie, nazwisko, adres, telefon) VALUES (2, 'Beata', 'Baranska', 'Bydgoszcz', '222222222');
+INSERT INTO firma.pracownicy(id_pracownika, imie, nazwisko, adres, telefon) VALUES (3, 'Celina', 'Cudowna', 'Ciechocinek', '333333333');
+INSERT INTO firma.pracownicy(id_pracownika, imie, nazwisko, adres, telefon) VALUES (4, 'Darek', 'Dariusz', 'Dubaj', '444444444');
+INSERT INTO firma.pracownicy(id_pracownika, imie, nazwisko, adres, telefon) VALUES (5, 'Ewa', 'Elipsa', 'Elblag', '555555555');
+INSERT INTO firma.pracownicy(id_pracownika, imie, nazwisko, adres, telefon) VALUES (6, 'Franek', 'Fachowiec', 'Frombork', '666666666');
+INSERT INTO firma.pracownicy(id_pracownika, imie, nazwisko, adres, telefon) VALUES (7, 'Gienek', 'Golonka', 'Gliwice', '777777777');
+INSERT INTO firma.pracownicy(id_pracownika, imie, nazwisko, adres, telefon) VALUES (8, 'Hanna', 'Handziak', 'Hrubieszow', '888888888');
+INSERT INTO firma.pracownicy(id_pracownika, imie, nazwisko, adres, telefon) VALUES (9, 'Ireneusz', 'Iwanicki', 'Inowroclaw', '999999999');
+INSERT INTO firma.pracownicy(id_pracownika, imie, nazwisko, adres, telefon) VALUES (10, 'Justyna', 'Jaskolka', 'Jastrzebie', '987654321');
+
+INSERT INTO firma.godziny(id_godziny, data, liczba_godzin, id_pracownika, miesiac, tydzien) VALUES (1, '2020-08-03', 8, 4, 8, 33);
+INSERT INTO firma.godziny(id_godziny, data, liczba_godzin, id_pracownika, miesiac, tydzien) VALUES (2, '2020-08-10', 4, 1, 8, 33);
+INSERT INTO firma.godziny(id_godziny, data, liczba_godzin, id_pracownika, miesiac, tydzien) VALUES (3, '2020-08-12', 8, 8, 8, 33);
+INSERT INTO firma.godziny(id_godziny, data, liczba_godzin, id_pracownika, miesiac, tydzien) VALUES (4, '2020-07-30'. 10, 10, 7, 31);
+INSERT INTO firma.godziny(id_godziny, data, liczba_godzin, id_pracownika, miesiac, tydzien) VALUES (5, '2020-08-20', 6, 2, 8, 34);
+INSERT INTO firma.godziny(id_godziny, data, liczba_godzin, id_pracownika, miesiac, tydzien) VALUES (6, '2020-08-20', 8, 5, 8, 34);
+INSERT INTO firma.godziny(id_godziny, data, liczba_godzin, id_pracownika, miesiac, tydzien) VALUES (7, '2020-08-28', 5, 3, 8, 35);          
+INSERT INTO firma.godziny(id_godziny, data, liczba_godzin, id_pracownika, miesiac, tydzien) VALUES (8, '2020-09-01', 8, 7, 9, 36);          
+INSERT INTO firma.godziny(id_godziny, data, liczba_godzin, id_pracownika, miesiac, tydzien) VALUES (9, '2020-09-01', 8, 5, 9, 36);           
+INSERT INTO firma.godziny(id_godziny, data, liczba_godzin, id_pracownika, miesiac, tydzien) VALUES (10, '2020-09-03', 6, 3, 9, 36);         
+
+INSERT INTO firma.pensja_stanowisko(id_pensji, stanowisko, kwota) VALUES (1, 'prezes', 20000);
+INSERT INTO firma.pensja_stanowisko(id_pensji, stanowisko, kwota) VALUES (2, 'wiceprezes', 15000);
+INSERT INTO firma.pensja_stanowisko(id_pensji, stanowisko, kwota) VALUES (3, 'manager', 13500);
+INSERT INTO firma.pensja_stanowisko(id_pensji, stanowisko, kwota) VALUES (4, 'elektryk', 3000);
+INSERT INTO firma.pensja_stanowisko(id_pensji, stanowisko, kwota) VALUES (5, 'pracownik fizyczny', 2500);
+INSERT INTO firma.pensja_stanowisko(id_pensji, stanowisko, kwota) VALUES (6, 'sprzataczka', 1500);
+INSERT INTO firma.pensja_stanowisko(id_pensji, stanowisko, kwota) VALUES (7, 'magazynier', 2500);
+INSERT INTO firma.pensja_stanowisko(id_pensji, stanowisko, kwota) VALUES (8, 'ksiegowa', 4000);
+INSERT INTO firma.pensja_stanowisko(id_pensji, stanowisko, kwota) VALUES (9, 'kucharz', 3500);
+INSERT INTO firma.pensja_stanowisko(id_pensji, stanowisko, kwota) VALUES (10, 'ochroniarz', 3200);
+
+INSERT INTO firma.premia(id_premii, rodzaj, kwota) VALUES (1, 'brak', 0);
+INSERT INTO firma.premia(id_premii, rodzaj, kwota) VALUES (2, 'Premia 1', 100);
+INSERT INTO firma.premia(id_premii, rodzaj, kwota) VALUES (3, 'Premia 2', 200);
+INSERT INTO firma.premia(id_premii, rodzaj, kwota) VALUES (4, 'Premia 3', 300);
+INSERT INTO firma.premia(id_premii, rodzaj, kwota) VALUES (5, 'Premia 4', 500);
+INSERT INTO firma.premia(id_premii, rodzaj, kwota) VALUES (6, 'Premia 5', 750);
+INSERT INTO firma.premia(id_premii, rodzaj, kwota) VALUES (7, 'Premia 6', 1000);
+INSERT INTO firma.premia(id_premii, rodzaj, kwota) VALUES (8, 'Premia 7', 1200);
+INSERT INTO firma.premia(id_premii, rodzaj, kwota) VALUES (9, 'Premia 8', 1500);
+INSERT INTO firma.premia(id_premii, rodzaj, kwota) VALUES (10, 'Premia 9', 2000);
+
+INSERT INTO firma.wynagrodzenie(id_wynagrodzenia, data, id_pracownika, id_godziny, id_pensji, id_premii) VALUES (1, '2020-08-01', 1, 1, 1, 1);
+INSERT INTO firma.wynagrodzenie(id_wynagrodzenia, data, id_pracownika, id_godziny, id_pensji, id_premii) VALUES (2, '2020-08-01', 8, 2, 5, 3);
+INSERT INTO firma.wynagrodzenie(id_wynagrodzenia, data, id_pracownika, id_godziny, id_pensji, id_premii) VALUES (3, '2020-08-01', 10, 3, 8, 1);
+INSERT INTO firma.wynagrodzenie(id_wynagrodzenia, data, id_pracownika, id_godziny, id_pensji, id_premii) VALUES (4, '2020-08-01', 2, 4, 7, 2);
+INSERT INTO firma.wynagrodzenie(id_wynagrodzenia, data, id_pracownika, id_godziny, id_pensji, id_premii) VALUES (5, '2020-08-01', 5, 5, 5, 5);
+INSERT INTO firma.wynagrodzenie(id_wynagrodzenia, data, id_pracownika, id_godziny, id_pensji, id_premii) VALUES (6, '2020-09-01', 1, 3, 1, 10);
+INSERT INTO firma.wynagrodzenie(id_wynagrodzenia, data, id_pracownika, id_godziny, id_pensji, id_premii) VALUES (7, '2020-09-01', 3, 7, 8, 4);
+INSERT INTO firma.wynagrodzenie(id_wynagrodzenia, data, id_pracownika, id_godziny, id_pensji, id_premii) VALUES (8, '2020-09-01', 5, 9, 5, 7);
+INSERT INTO firma.wynagrodzenie(id_wynagrodzenia, data, id_pracownika, id_godziny, id_pensji, id_premii) VALUES (9, '2020-08-01', 4, 10, 9, 1);
+INSERT INTO firma.wynagrodzenie(id_wynagrodzenia, data, id_pracownika, id_godziny, id_pensji, id_premii) VALUES (10, '2020-08-01', 3, 6, 8, 2);
+
 
 6.
 a) SELECT id_pracownika, nazwisko FROM firma.pracownicy;
