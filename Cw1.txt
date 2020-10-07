@@ -119,6 +119,14 @@ d)
 e) SELECT SUM(pensja_stanowisko.kwota) + SUM(premia.kwota) AS suma_wynagrodzen FROM (firma.wynagrodzenie INNER JOIN firma.pensja_stanowisko ON wynagrodzenie.id_pensji = pensja_stanowisko.id_pensji) INNER JOIN firma.premia ON wynagrodzenie.id_premii = premia.id_premii;
 f) SELECT pensja_stanowisko.stanowisko, SUM(pensja_stanowisko.kwota) + SUM(premia.kwota) AS suma_wynagrodzen FROM (firma.wynagrodzenie INNER JOIN firma.pensja_stanowisko ON wynagrodzenie.id_pensji = pensja_stanowisko.id_pensji) INNER JOIN firma.premia ON wynagrodzenie.id_premii = premia.id_premii GROUP BY stanowisko;
 g) SELECT pensja_stanowisko.stanowisko, COUNT(premia.id_premii) AS liczba_premii FROM (firma.pensja_stanowisko INNER JOIN firma.wynagrodzenie ON pensja_stanowisko.id_pensji = wynagrodzenie.id_pensji) INNER JOIN firma.premia ON wynagrodzenie.id_premii = premia.id_premii WHERE premia.rodzaj NOT LIKE 'brak' GROUP BY stanowisko;
+h) 
+
+8.
+a) ALTER TABLE firma.pracownicy ALTER COLUMN telefon TYPE VARCHAR;
+UPDATE firma.pracownicy SET telefon = '(+48)' || telefon;
+b) UPDATE firma.pracownicy SET telefon = SUBSTRING(telefon, 1, 8) || '-' || SUBSTRING(telefon, 9, 3) || '-' || SUBSTRING(telefon, 12, 3);
+c) SELECT UPPER(imie), UPPER(nazwisko) FROM firma.pracownicy WHERE (LENGTH(pracownicy.nazwisko))=(SELECT MAX(LENGTH(pracownicy.nazwisko)) FROM firma.pracownicy);
+d) SELECT MD5(imie || nazwisko || adres || telefon || pensja_stanowisko.kwota) FROM firma.pracownicy INNER JOIN firma.wynagrodzenie ON pracownicy.id_pracownika = wynagrodzenie.id_pracownika INNER JOIN firma.pensja_stanowisko ON wynagrodzenie.id_pensji = pensja_stanowisko.id_pensji;
 
 9.
 SELECT 'Pracownik ' || imie || ' ' || nazwisko || ', w dniu ' || EXTRACT(DAY FROM godziny.data) || '.' || EXTRACT(MONTH FROM godziny.data) || '.' || EXTRACT(YEAR FROM godziny.data) || ' otrzymal pensje calkowita na kwote ' || pensja_stanowisko.kwota + premia.kwota || ' zl, gdzie wynagrodzenie zasadnicze wynosilo: ' || pensja_stanowisko.kwota || ' zl, premia: ' || premia.kwota || ' zl, nadgodziny: ' || (godziny.liczba_godzin - 160)*pensja_stanowisko.kwota/160 || ' zl.' FROM firma.pracownicy INNER JOIN firma.wynagrodzenie ON pracownicy.id_pracownika = wynagrodzenie.id_pracownika INNER JOIN firma.pensja_stanowisko ON wynagrodzenie.id_pensji = pensja_stanowisko.id_pensji INNER JOIN firma.premia ON wynagrodzenie.id_premii = premia.id_premii INNER JOIN firma.godziny ON wynagrodzenie.id_godziny = godziny.id_godziny;
