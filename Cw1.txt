@@ -107,19 +107,20 @@ b) SELECT DISTINCT pracownicy.id_pracownika FROM ((firma.pracownicy INNER JOIN f
 c) SELECT pracownicy.id_pracownika FROM (((firma.pracownicy INNER JOIN firma.wynagrodzenie ON pracownicy.id_pracownika = wynagrodzenie.id_pracownika) INNER JOIN firma.pensja_stanowisko ON wynagrodzenie.id_pensji = pensja_stanowisko.id_pensji) INNER JOIN firma.premia ON wynagrodzenie.id_premii = premia.id_premii) WHERE pensja_stanowisko.kwota > 2000 AND premia.kwota = 0;
 d) SELECT * FROM firma.pracownicy WHERE imie LIKE 'J%';
 e) SELECT * FROM firma.pracownicy WHERE nazwisko LIKE '%n%' AND imie LIKE '%a';
-f) 
+f) --Przy założeniu, że w tabeli godziny są podane przepracowane godziny w ciągu miesiąca--
+SELECT imie, nazwisko, (liczba_godzin-160) AS liczba_nadgodzin FROM firma.pracownicy INNER JOIN firma.wynagrodzenie ON pracownicy.id_pracownika = wynagrodzenie.id_pracownika INNER JOIN firma.godziny ON wynagrodzenie.id_godziny = godziny.id_godziny WHERE liczba_godzin > 160; 
 g) SELECT pracownicy.imie, pracownicy.nazwisko FROM ((firma.pracownicy INNER JOIN firma.wynagrodzenie ON pracownicy.id_pracownika = wynagrodzenie.id_pracownika) INNER JOIN firma.pensja_stanowisko ON wynagrodzenie.id_pensji = pensja_stanowisko.id_pensji) WHERE pensja_stanowisko.kwota >= 1500 AND pensja_stanowisko.kwota <= 3000 GROUP BY pracownicy.nazwisko, pracownicy.imie;
-h)
+h) SELECT imie, nazwisko FROM firma.pracownicy INNER JOIN firma.wynagrodzenie ON pracownicy.id_pracownika = wynagrodzenie.id_pracownika INNER JOIN firma.godziny ON wynagrodzenie.id_godziny = godziny.id_godziny INNER JOIN firma.premia ON wynagrodzenie.id_premii = premia.id_premii WHERE liczba_godzin > 160 AND premia.kwota = 0;
 
 7.
 a) SELECT imie, nazwisko, kwota FROM (firma.pracownicy INNER JOIN firma.wynagrodzenie ON pracownicy.id_pracownika = wynagrodzenie.id_pracownika) INNER JOIN firma.pensja_stanowisko ON wynagrodzenie.id_pensji = pensja_stanowisko.id_pensji GROUP BY imie, nazwisko, kwota ORDER BY pensja_stanowisko.kwota;
 b) SELECT imie, nazwisko, pensja_stanowisko.kwota, premia.kwota FROM ((firma.pracownicy INNER JOIN firma.wynagrodzenie ON pracownicy.id_pracownika = wynagrodzenie.id_pracownika) INNER JOIN firma.pensja_stanowisko ON wynagrodzenie.id_pensji = pensja_stanowisko.id_pensji) INNER JOIN firma.premia ON wynagrodzenie.id_premii = premia.id_premii GROUP BY imie, nazwisko, pensja_stanowisko.kwota, premia.kwota ORDER BY pensja_stanowisko.kwota DESC, premia.kwota DESC;
 c) SELECT stanowisko, COUNT(pensja_stanowisko.id_pensji) AS Liczba_pracownikow FROM (firma.pensja_stanowisko INNER JOIN firma.wynagrodzenie ON pensja_stanowisko.id_pensji = wynagrodzenie.id_pensji) INNER JOIN firma.pracownicy ON pracownicy.id_pracownika = wynagrodzenie.id_pracownika GROUP BY stanowisko;
-d)
+d) SELECT AVG(pensja_stanowisko.kwota + premia.kwota) AS srednia_placa, MIN(pensja_stanowisko.kwota + premia.kwota) AS minimalna_placa, MAX(pensja_stanowisko.kwota + premia.kwota) AS maksymalna_placa FROM firma.pensja_stanowisko INNER JOIN firma.wynagrodzenie ON pensja_stanowisko.id_pensji = wynagrodzenie.id_pensji INNER JOIN firma.premia ON wynagrodzenie.id_premii = premia.id_premii WHERE stanowisko LIKE 'prezes';
 e) SELECT SUM(pensja_stanowisko.kwota) + SUM(premia.kwota) AS suma_wynagrodzen FROM (firma.wynagrodzenie INNER JOIN firma.pensja_stanowisko ON wynagrodzenie.id_pensji = pensja_stanowisko.id_pensji) INNER JOIN firma.premia ON wynagrodzenie.id_premii = premia.id_premii;
 f) SELECT pensja_stanowisko.stanowisko, SUM(pensja_stanowisko.kwota) + SUM(premia.kwota) AS suma_wynagrodzen FROM (firma.wynagrodzenie INNER JOIN firma.pensja_stanowisko ON wynagrodzenie.id_pensji = pensja_stanowisko.id_pensji) INNER JOIN firma.premia ON wynagrodzenie.id_premii = premia.id_premii GROUP BY stanowisko;
 g) SELECT pensja_stanowisko.stanowisko, COUNT(premia.id_premii) AS liczba_premii FROM (firma.pensja_stanowisko INNER JOIN firma.wynagrodzenie ON pensja_stanowisko.id_pensji = wynagrodzenie.id_pensji) INNER JOIN firma.premia ON wynagrodzenie.id_premii = premia.id_premii WHERE premia.rodzaj NOT LIKE 'brak' GROUP BY stanowisko;
-h) 
+h) DELETE FROM firma.pracownicy WHERE pracownicy.id_pracownika IN (SELECT pracownicy.id_pracownika FROM firma.pracownicy INNER JOIN firma.wynagrodzenie ON pracownicy.id_pracownika = wynagrodzenie.id_pracownika INNER JOIN firma.pensja_stanowisko ON wynagrodzenie.id_pensji = pensja_stanowisko.id_pensji INNER JOIN firma.premia ON wynagrodzenie.id_premii = premia.id_premii WHERE pensja_stanowisko.kwota + premia.kwota < 1200);
 
 8.
 a) ALTER TABLE firma.pracownicy ALTER COLUMN telefon TYPE VARCHAR;
