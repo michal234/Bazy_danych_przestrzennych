@@ -1,0 +1,72 @@
+2. CREATE SCHEMA sklep;
+
+3. 
+CREATE TABLE sklep.produkty(id_produktu INT NOT NULL PRIMARY KEY, nazwa_produktu VARCHAR, cena NUMERIC, id_producenta INT NOT NULL);
+CREATE TABLE sklep.producenci(id_producenta INT NOT NULL PRIMARY KEY, nazwa_producenta VARCHAR, mail VARCHAR, telefon VARCHAR(9));
+ALTER TABLE sklep.produkty ADD FOREIGN KEY (id_producenta) REFERENCES sklep.producenci(id_producenta);
+
+4. CREATE TABLE sklep.zamowienia(id_zamowienia INT NOT NULL PRIMARY KEY, id_produktu INT NOT NULL, ilosc INT, data DATE, FOREIGN KEY (id_produktu) REFERENCES sklep.produkty(id_produktu));
+
+6.
+INSERT INTO sklep.producenci(id_producenta, nazwa_producenta, mail, telefon) VALUES (1, 'Agrico', 'agrico@mail.com', '111111111');
+INSERT INTO sklep.producenci(id_producenta, nazwa_producenta, mail, telefon) VALUES (2, 'Carlsberg', 'carlsberg@mail.com', '222222222');
+INSERT INTO sklep.producenci(id_producenta, nazwa_producenta, mail, telefon) VALUES (3, 'Delecta', 'delecta@mail.com', '333333333');
+INSERT INTO sklep.producenci(id_producenta, nazwa_producenta, mail, telefon) VALUES (4, 'Ferrero', 'ferrero@mail.com', '444444444');
+INSERT INTO sklep.producenci(id_producenta, nazwa_producenta, mail, telefon) VALUES (5, 'Nestle', 'nestle@mail.com', '555555555');
+INSERT INTO sklep.producenci(id_producenta, nazwa_producenta, mail, telefon) VALUES (6, 'Gerber', 'gerber@mail.com', '666666666');
+INSERT INTO sklep.producenci(id_producenta, nazwa_producenta, mail, telefon) VALUES (7, 'Goplana', 'goplana@mail.com', '777777777');
+INSERT INTO sklep.producenci(id_producenta, nazwa_producenta, mail, telefon) VALUES (8, 'Kamis', 'kamis@mail.com', '888888888');
+INSERT INTO sklep.producenci(id_producenta, nazwa_producenta, mail, telefon) VALUES (9, 'Winiary', 'winiary@mail.com', '999999999');
+INSERT INTO sklep.producenci(id_producenta, nazwa_producenta, mail, telefon) VALUES (10, 'Lubella', 'lubella@mail.com', '123456789');
+
+INSERT INTO sklep.produkty(id_produktu, nazwa_produktu, cena, id_producenta) VALUES (1, 'paprykarz', 16.90, 1);
+INSERT INTO sklep.produkty(id_produktu, nazwa_produktu, cena, id_producenta) VALUES (2, 'piwo jasne', 3.29, 2);
+INSERT INTO sklep.produkty(id_produktu, nazwa_produktu, cena, id_producenta) VALUES (3, 'piwo bezalkoholowe', 3.49, 2);
+INSERT INTO sklep.produkty(id_produktu, nazwa_produktu, cena, id_producenta) VALUES (4, 'kisiel', 4.59, 3);
+INSERT INTO sklep.produkty(id_produktu, nazwa_produktu, cena, id_producenta) VALUES (5, 'galaretka', 4.89, 3);
+INSERT INTO sklep.produkty(id_produktu, nazwa_produktu, cena, id_producenta) VALUES (6, 'pralinki', 12.90, 4);
+INSERT INTO sklep.produkty(id_produktu, nazwa_produktu, cena, id_producenta) VALUES (7, 'platki', 10.99, 5);
+INSERT INTO sklep.produkty(id_produktu, nazwa_produktu, cena, id_producenta) VALUES (8, 'kaszka', 15.89, 6);
+INSERT INTO sklep.produkty(id_produktu, nazwa_produktu, cena, id_producenta) VALUES (9, 'czekolada', 3.49, 7);
+INSERT INTO sklep.produkty(id_produktu, nazwa_produktu, cena, id_producenta) VALUES (10, 'krowki', 5.20, 7);
+INSERT INTO sklep.produkty(id_produktu, nazwa_produktu, cena, id_producenta) VALUES (11, 'pieprz mielony', 3.10, 8);
+INSERT INTO sklep.produkty(id_produktu, nazwa_produktu, cena, id_producenta) VALUES (12, 'przyprawa do kurczaka', 4.50, 8);
+INSERT INTO sklep.produkty(id_produktu, nazwa_produktu, cena, id_producenta) VALUES (13, 'sos grzybowy', 4.50, 9);
+INSERT INTO sklep.produkty(id_produktu, nazwa_produktu, cena, id_producenta) VALUES (14, 'sos pieczeniowy', 4.50, 9);
+INSERT INTO sklep.produkty(id_produktu, nazwa_produktu, cena, id_producenta) VALUES (15, 'makaron', 3.59, 10);
+
+INSERT INTO sklep.zamowienia(id_zamowienia, id_produktu, ilosc, data) VALUES (1, 1, 20, '2020-10-10');
+INSERT INTO sklep.zamowienia(id_zamowienia, id_produktu, ilosc, data) VALUES (2, 1, 10, '2020-11-10');
+INSERT INTO sklep.zamowienia(id_zamowienia, id_produktu, ilosc, data) VALUES (3, 2, 55, '2020-10-10');
+INSERT INTO sklep.zamowienia(id_zamowienia, id_produktu, ilosc, data) VALUES (4, 2, 110, '2020-11-10');
+INSERT INTO sklep.zamowienia(id_zamowienia, id_produktu, ilosc, data) VALUES (5, 3, 25, '2020-10-10');
+INSERT INTO sklep.zamowienia(id_zamowienia, id_produktu, ilosc, data) VALUES (6, 4, 30, '2020-10-10');
+INSERT INTO sklep.zamowienia(id_zamowienia, id_produktu, ilosc, data) VALUES (7, 5, 30, '2020-11-10');
+INSERT INTO sklep.zamowienia(id_zamowienia, id_produktu, ilosc, data) VALUES (8, 6, 15, '2020-10-10');
+INSERT INTO sklep.zamowienia(id_zamowienia, id_produktu, ilosc, data) VALUES (9, 7, 35, '2020-10-10');
+INSERT INTO sklep.zamowienia(id_zamowienia, id_produktu, ilosc, data) VALUES (10, 7, 20, '2020-11-10');
+INSERT INTO sklep.zamowienia(id_zamowienia, id_produktu, ilosc, data) VALUES (11, 8, 45, '2020-10-10');
+INSERT INTO sklep.zamowienia(id_zamowienia, id_produktu, ilosc, data) VALUES (12, 8, 20, '2020-11-10');
+INSERT INTO sklep.zamowienia(id_zamowienia, id_produktu, ilosc, data) VALUES (13, 9, 60, '2020-10-10');
+INSERT INTO sklep.zamowienia(id_zamowienia, id_produktu, ilosc, data) VALUES (14, 9, 60, '2020-11-10');
+INSERT INTO sklep.zamowienia(id_zamowienia, id_produktu, ilosc, data) VALUES (15, 10, 20, '2020-10-10');
+INSERT INTO sklep.zamowienia(id_zamowienia, id_produktu, ilosc, data) VALUES (16, 11, 25, '2020-10-10');
+INSERT INTO sklep.zamowienia(id_zamowienia, id_produktu, ilosc, data) VALUES (17, 12, 20, '2020-10-10');
+INSERT INTO sklep.zamowienia(id_zamowienia, id_produktu, ilosc, data) VALUES (18, 13, 15, '2020-10-10');
+INSERT INTO sklep.zamowienia(id_zamowienia, id_produktu, ilosc, data) VALUES (19, 14, 10, '2020-10-10');
+INSERT INTO sklep.zamowienia(id_zamowienia, id_produktu, ilosc, data) VALUES (20, 15, 30, '2020-10-10');
+
+7. Korzystając z aplikacji pgAdmin4 stworzono kopię zapasową bazy danych s290135.
+
+8. DROP DATABASE s290135;
+
+9. Korzystając z aplikacji pgAdmin4 przywrócono bazę danych używając opcji Restore.
+
+11.
+a) SELECT 'Producent: ' || nazwa_producenta || ', liczba zamowien: ' || SUM(ilosc) || ', wartosc zamowienia: ' || SUM(ilosc*cena) FROM sklep.zamowienia INNER JOIN sklep.produkty ON zamowienia.id_produktu = produkty.id_produktu INNER JOIN sklep.producenci ON produkty.id_producenta = producenci.id_producenta GROUP BY nazwa_producenta;
+b) SELECT 'Produkt: ' || nazwa_produktu || ', liczba zamowien: ' || SUM(ilosc) FROM sklep.zamowienia INNER JOIN sklep.produkty ON zamowienia.id_produktu = produkty.id_produktu GROUP BY nazwa_produktu;
+c) SELECT * FROM sklep.zamowienia NATURAL JOIN sklep.produkty;
+d) --Pole data zostało uwzględnione wcześniej--
+e) SELECT * FROM sklep.zamowienia WHERE EXTRACT(MONTH FROM zamowienia.data) = '01';
+f) SELECT WEEKDAY(data) AS dzien_tygodnia FROM (SELECT data, SUM(ilosc*cena) AS wartosc_sprzedazy FROM sklep.zamowienia INNER JOIN sklep.produkty ON zamowienia.id_produktu = produkty.id_produktu GROUP BY data ORDER BY wartosc_sprzedazy DESC LIMIT 1) AS ranking;
+g) SELECT nazwa_produktu AS najczesciej_zamawiany_produkt FROM (SELECT nazwa_produktu, SUM(ilosc) FROM sklep.zamowienia INNER JOIN sklep.produkty ON zamowienia.id_produktu = produkty.id_produktu GROUP BY nazwa_produktu ORDER BY SUM(ilosc) DESC) AS ranking LIMIT 1;
