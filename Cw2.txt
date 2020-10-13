@@ -64,9 +64,66 @@ INSERT INTO sklep.zamowienia(id_zamowienia, id_produktu, ilosc, data) VALUES (20
 
 11.
 a) SELECT 'Producent: ' || nazwa_producenta || ', liczba zamowien: ' || SUM(ilosc) || ', wartosc zamowienia: ' || SUM(ilosc*cena) FROM sklep.zamowienia INNER JOIN sklep.produkty ON zamowienia.id_produktu = produkty.id_produktu INNER JOIN sklep.producenci ON produkty.id_producenta = producenci.id_producenta GROUP BY nazwa_producenta;
+
 b) SELECT 'Produkt: ' || nazwa_produktu || ', liczba zamowien: ' || SUM(ilosc) FROM sklep.zamowienia INNER JOIN sklep.produkty ON zamowienia.id_produktu = produkty.id_produktu GROUP BY nazwa_produktu;
+
 c) SELECT * FROM sklep.zamowienia NATURAL JOIN sklep.produkty;
+
 d) --Pole data zostało uwzględnione wcześniej--
+
 e) SELECT * FROM sklep.zamowienia WHERE EXTRACT(MONTH FROM zamowienia.data) = '01';
+
 f) SELECT WEEKDAY(data) AS dzien_tygodnia FROM (SELECT data, SUM(ilosc*cena) AS wartosc_sprzedazy FROM sklep.zamowienia INNER JOIN sklep.produkty ON zamowienia.id_produktu = produkty.id_produktu GROUP BY data ORDER BY wartosc_sprzedazy DESC LIMIT 1) AS ranking;
+
 g) SELECT nazwa_produktu AS najczesciej_zamawiany_produkt FROM (SELECT nazwa_produktu, SUM(ilosc) FROM sklep.zamowienia INNER JOIN sklep.produkty ON zamowienia.id_produktu = produkty.id_produktu GROUP BY nazwa_produktu ORDER BY SUM(ilosc) DESC) AS ranking LIMIT 1;
+
+12.
+a) SELECT 'Produkt ' || nazwa_produktu || ', którego producentem jest ' || nazwa_producenta || ', zamówiono ' || COUNT(id_zamowienia) || ' razy' AS opis FROM sklep.zamowienia INNER JOIN sklep.produkty ON zamowienia.id_produktu = produkty.id_produktu INNER JOIN sklep.producenci ON produkty.id_producenta = producenci.id_producenta GROUP BY nazwa_produktu, nazwa_producenta;
+
+b) SELECT * FROM sklep.zamowienia WHERE id_zamowienia NOT IN (SELECT id_zamowienia FROM sklep.zamowienia INNER JOIN sklep.produkty ON zamowienia.id_produktu = produkty.id_produktu ORDER BY cena*ilosc LIMIT 3);
+
+c) CREATE TABLE sklep.klienci(id_klienta INT NOT NULL PRIMARY KEY, email VARCHAR, telefon VARCHAR(9));
+
+INSERT INTO sklep.klienci(id_klienta, email, telefon) VALUES (1, 'adam@mail.com', '123123123');
+INSERT INTO sklep.klienci(id_klienta, email, telefon) VALUES (2, 'beata@mail.com', '234234234');
+INSERT INTO sklep.klienci(id_klienta, email, telefon) VALUES (3, 'celina@mail.com', '345345345');
+INSERT INTO sklep.klienci(id_klienta, email, telefon) VALUES (4, 'darek@mail.com', '456456456');
+INSERT INTO sklep.klienci(id_klienta, email, telefon) VALUES (5, 'ewa@mail.com', '567567567');
+INSERT INTO sklep.klienci(id_klienta, email, telefon) VALUES (6, 'franek@mail.com', '678678678');
+INSERT INTO sklep.klienci(id_klienta, email, telefon) VALUES (7, 'gienek@mail.com', '789789789');
+INSERT INTO sklep.klienci(id_klienta, email, telefon) VALUES (8, 'halina@mail.com', '890890890');
+INSERT INTO sklep.klienci(id_klienta, email, telefon) VALUES (9, 'iwona@mail.com', '901901901');
+INSERT INTO sklep.klienci(id_klienta, email, telefon) VALUES (10, 'justyna@mail.com', '987654321');
+
+d) ALTER TABLE sklep.zamowienia ADD COLUMN id_klienta INT; 
+
+UPDATE sklep.zamowienia SET id_klienta=1 WHERE id_zamowienia=1;
+UPDATE sklep.zamowienia SET id_klienta=1 WHERE id_zamowienia=2;
+UPDATE sklep.zamowienia SET id_klienta=2 WHERE id_zamowienia=3;
+UPDATE sklep.zamowienia SET id_klienta=3 WHERE id_zamowienia=4;
+UPDATE sklep.zamowienia SET id_klienta=3 WHERE id_zamowienia=5;
+UPDATE sklep.zamowienia SET id_klienta=3 WHERE id_zamowienia=6;
+UPDATE sklep.zamowienia SET id_klienta=4 WHERE id_zamowienia=7;
+UPDATE sklep.zamowienia SET id_klienta=5 WHERE id_zamowienia=8;
+UPDATE sklep.zamowienia SET id_klienta=5 WHERE id_zamowienia=9;
+UPDATE sklep.zamowienia SET id_klienta=6 WHERE id_zamowienia=10;
+UPDATE sklep.zamowienia SET id_klienta=7 WHERE id_zamowienia=11;
+UPDATE sklep.zamowienia SET id_klienta=7 WHERE id_zamowienia=12;
+UPDATE sklep.zamowienia SET id_klienta=8 WHERE id_zamowienia=13;
+UPDATE sklep.zamowienia SET id_klienta=8 WHERE id_zamowienia=14;
+UPDATE sklep.zamowienia SET id_klienta=8 WHERE id_zamowienia=15;
+UPDATE sklep.zamowienia SET id_klienta=9 WHERE id_zamowienia=16;
+UPDATE sklep.zamowienia SET id_klienta=9 WHERE id_zamowienia=17;
+UPDATE sklep.zamowienia SET id_klienta=10 WHERE id_zamowienia=18;
+UPDATE sklep.zamowienia SET id_klienta=10 WHERE id_zamowienia=19;
+UPDATE sklep.zamowienia SET id_klienta=10 WHERE id_zamowienia=20;
+
+ALTER TABLE sklep.zamowienia ADD FOREIGN KEY(id_klienta) REFERENCES sklep.klienci(id_klienta);
+
+e) SELECT klienci.id_klienta, klienci.email, nazwa_produktu, ilosc, ilosc*cena AS wartosc_zamowienia FROM sklep.zamowienia INNER JOIN sklep.klienci ON zamowienia.id_klienta = klienci.id_klienta INNER JOIN sklep.produkty ON zamowienia.id_produktu = produkty.id_produktu GROUP BY klienci.id_klienta, klienci.email, nazwa_produktu, ilosc, wartosc_zamowienia ORDER BY klienci.id_klienta;
+
+f) 
+
+g) DELETE FROM sklep.produkty WHERE produkty.id_produktu NOT IN (SELECT id_produktu FROM sklep.zamowienia);
+
+
