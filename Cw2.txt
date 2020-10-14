@@ -163,11 +163,13 @@ ALTER USER student WITH NOSUPERUSER;
 DROP USER guest290135;
 
 15.
-a) BEGIN TRANSACTION;
+a) 
+BEGIN TRANSACTION;
 UPDATE sklep.produkty SET cena = cena + 10;
 COMMIT TRANSACTION;
 
-b) BEGIN TRANSACTION;
+b) 
+BEGIN TRANSACTION;
 UPDATE sklep.produkty SET cena = cena * 1.1 WHERE id_produktu = 3;
 SAVEPOINT S1;
 UPDATE sklep.zamowienia SET ilosc = ilosc * 1.25;
@@ -178,3 +180,10 @@ DELETE FROM sklep.klienci WHERE id_klienta IN (SELECT klient.id_klienta FROM (SE
 ROLLBACK TO SAVEPOINT S1;
 ROLLBACK TO SAVEPOINT S2;
 ROLLBACK TRANSACTION;
+
+c)
+CREATE OR REPLACE PROCEDURE Udzialy_producentow() 
+LANGUAGE SQL
+AS $$
+SELECT nazwa_producenta || ': ' || CAST( COUNT(id_zamowienia) AS FLOAT ) / (SELECT COUNT(id_zamowienia) FROM sklep.zamowienia)  * 100 || '%' FROM sklep.producenci INNER JOIN sklep.produkty ON producenci.id_producenta = produkty.id_producenta INNER JOIN sklep.zamowienia ON produkty.id_produktu = zamowienia.id_zamowienia GROUP BY nazwa_producenta;
+$$;
