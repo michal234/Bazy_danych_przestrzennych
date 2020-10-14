@@ -122,7 +122,9 @@ ALTER TABLE sklep.zamowienia ADD FOREIGN KEY(id_klienta) REFERENCES sklep.klienc
 
 e) SELECT klienci.id_klienta, klienci.email, nazwa_produktu, ilosc, ilosc*cena AS wartosc_zamowienia FROM sklep.zamowienia INNER JOIN sklep.klienci ON zamowienia.id_klienta = klienci.id_klienta INNER JOIN sklep.produkty ON zamowienia.id_produktu = produkty.id_produktu GROUP BY klienci.id_klienta, klienci.email, nazwa_produktu, ilosc, wartosc_zamowienia ORDER BY klienci.id_klienta;
 
-f) 
+f) (SELECT 'NAJRZADZIEJ ZAMAWIAJACY: ' || klienci.* || ', ilosc zamowien: ' || COUNT(id_zamowienia) || ', wartosc: ' || SUM(ilosc*cena) FROM sklep.zamowienia RIGHT JOIN sklep.klienci ON klienci.id_klienta = zamowienia.id_klienta INNER JOIN sklep.produkty ON produkty.id_produktu = zamowienia.id_produktu GROUP BY klienci.id_klienta ORDER BY COUNT(id_zamowienia) LIMIT 1)
+UNION
+(SELECT 'NAJCZESCIEJ ZAMAWIAJACY: ' || klienci.* || ', ilosc zamowien: ' || COUNT(id_zamowienia) || ', wartosc: ' || SUM(ilosc*cena) FROM sklep.zamowienia RIGHT JOIN sklep.klienci ON klienci.id_klienta = zamowienia.id_klienta INNER JOIN sklep.produkty ON produkty.id_produktu = zamowienia.id_produktu GROUP BY klienci.id_klienta ORDER BY COUNT(id_zamowienia) DESC LIMIT 1);
 
 g) DELETE FROM sklep.produkty WHERE produkty.id_produktu NOT IN (SELECT id_produktu FROM sklep.zamowienia);
 
