@@ -161,3 +161,20 @@ CREATE USER guest290135;
 c) ALTER USER superuser290135 RENAME TO student;
 ALTER USER student WITH NOSUPERUSER;
 DROP USER guest290135;
+
+15.
+a) BEGIN TRANSACTION;
+UPDATE sklep.produkty SET cena = cena + 10;
+COMMIT TRANSACTION;
+
+b) BEGIN TRANSACTION;
+UPDATE sklep.produkty SET cena = cena * 1.1 WHERE id_produktu = 3;
+SAVEPOINT S1;
+UPDATE sklep.zamowienia SET ilosc = ilosc * 1.25;
+SAVEPOINT S2;
+ALTER TABLE sklep.zamowienia DROP CONSTRAINT zamowienia_id_klienta_fkey;
+ALTER TABLE sklep.zamowienia ADD FOREIGN KEY(id_klienta) REFERENCES sklep.klienci(id_klienta) ON DELETE CASCADE;
+DELETE FROM sklep.klienci WHERE id_klienta IN (SELECT klient.id_klienta FROM (SELECT klienci.id_klienta, COUNT(zamowienia.id_zamowienia) FROM sklep.klienci INNER JOIN sklep.zamowienia ON klienci.id_klienta = zamowienia.id_klienta GROUP BY klienci.id_klienta ORDER BY COUNT(zamowienia.id_zamowienia) DESC LIMIT 1) AS klient);
+ROLLBACK TO SAVEPOINT S1;
+ROLLBACK TO SAVEPOINT S2;
+ROLLBACK TRANSACTION;
