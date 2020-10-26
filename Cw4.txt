@@ -1,0 +1,27 @@
+4. 
+SELECT COUNT(*) FROM popp INNER JOIN rivers ON ST_DWithin(popp.geom, rivers.geom, 100000) WHERE popp.f_codedesc LIKE 'Building';
+SELECT popp.* INTO tableB FROM popp INNER JOIN rivers ON ST_DWithin(popp.geom, rivers.geom, 100000) WHERE popp.f_codedesc LIKE 'Building';
+
+5.
+SELECT name, geom, elev INTO airportsNew FROM airports;
+
+a) 
+SELECT name AS Lotnisko_najbardziej_na_zachod FROM airportsNew ORDER BY ST_X(geom) LIMIT 1;
+SELECT name AS Lotnisko_najbardziej_na_wschod FROM airportsNew ORDER BY ST_X(geom) DESC LIMIT 1;
+
+b)
+INSERT INTO airportsNew(name, geom, elev) VALUES ('airportB',
+CONCAT('Point(',
+(SELECT ((SELECT ST_X(geom) FROM airportsNew ORDER BY ST_X(geom) DESC LIMIT 1) + (SELECT ST_X(geom) FROM airportsNew ORDER BY ST_X(geom) LIMIT 1)) / 2),
+' ',
+(SELECT ((SELECT ST_Y(geom) FROM airportsNew ORDER BY ST_X(geom) DESC LIMIT 1) + (SELECT ST_Y(geom) FROM airportsNew ORDER BY ST_X(geom) LIMIT 1)) / 2),
+')'), 123);
+
+6.
+SELECT ST_Area(ST_Buffer((SELECT ST_ShortestLine(lakes.geom, airports.geom) FROM lakes INNER JOIN airports ON lakes.names LIKE 'Iliamna Lake' AND airports.name LIKE 'AMBLER'), 1000));
+
+7.
+SELECT trees.vegdesc, SUM(ST_Area(ST_Intersection(trees.geom, tundra.geom))) AS Powierzchnia_w_tundrze,  SUM(ST_Area(ST_Intersection(trees.geom, tundra.geom))) AS Powierzchnia_na_bagnach FROM trees, tundra, swamp GROUP BY trees.vegdesc;
+
+--Wywołanie kwerendy skutkuje pojawieniem się błędu:
+--ERROR:  lwgeom_intersection: GEOS Error: TopologyException: Input geom 0 is invalid: Ring Self-intersection at or near point -1214871.826232871 4661203.5427105417 at -1214871.826232871 4661203.5427105417
